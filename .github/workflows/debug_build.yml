@@ -38,10 +38,11 @@ jobs:
 
     - name: List build output
       run: |
-        ls -la app/build/outputs/
-        ls -la app/build/outputs/apk/
-        ls -la app/build/outputs/apk/debug/
-        find app/build/outputs -name "*.apk" -type f
+        ls -la app/build/outputs/ || echo "No outputs dir"
+        ls -la app/build/outputs/apk/ || echo "No APK dir"
+        ls -la app/build/outputs/apk/debug/ || echo "No debug APK dir"
+        echo "Searching for APK files..."
+        find app/build/outputs -name "*.apk" -type f || echo "No APK files found"
     
     - name: Upload Build Log
       if: always()
