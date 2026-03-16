@@ -18,6 +18,7 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        cache: 'gradle'
     
     - name: Create local.properties
       run: |
@@ -27,7 +28,7 @@ jobs:
       run: chmod +x gradlew
     
     - name: Build Debug APK
-      run: ./gradlew assembleDebug
+      run: ./gradlew assembleDebug --stacktrace 2>&1
     
     - name: Upload Debug APK
       uses: actions/upload-artifact@v4
