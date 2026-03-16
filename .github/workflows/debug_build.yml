@@ -37,7 +37,15 @@ jobs:
       run: ./gradlew clean assembleDebug --rerun-tasks --info 2>&1 | tee build.log
     
     - name: List build output
-      run: ls -la app/build/outputs/ && ls -la app/build/outputs/apk/ 2>/dev/null || echo "APK dir not found"
+      run: |
+        ls -la app/build/outputs/ || echo "No outputs dir"
+        ls -la app/build/outputs/apk/ || echo "No APK dir"
+        # Check if APK exists
+        if [ ! -f "app/build/outputs/apk/app-debug.apk" ]; then
+          echo "ERROR: APK not found!"
+          exit 1
+        fi
+        echo "APK found successfully"
     
     - name: Upload Build Log
       if: always()
