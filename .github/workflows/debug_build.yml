@@ -34,13 +34,13 @@ jobs:
       run: chmod +x gradlew
     
     - name: Build Debug APK
-      run: ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
+      run: ./gradlew clean assembleDebug --rerun-tasks --info 2>&1 | tee build.log
     
     - name: List build output
       run: ls -la app/build/outputs/ && ls -la app/build/outputs/apk/ 2>/dev/null || echo "APK dir not found"
     
-    - name: Upload Build Log on Failure
-      if: failure()
+    - name: Upload Build Log
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: build-log
