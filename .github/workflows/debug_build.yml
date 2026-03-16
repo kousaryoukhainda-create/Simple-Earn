@@ -33,8 +33,11 @@ jobs:
     - name: Build Debug APK
       run: ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
     
-    - name: List build output
-      run: ls -la app/build/outputs/apk/debug/ || echo "APK directory not found"
+    - name: Find APK files
+      run: find . -name "*.apk" 2>/dev/null
+    
+    - name: List build output directory
+      run: ls -la app/build/outputs/ 2>/dev/null || echo "No outputs dir"
     
     - name: Upload Build Log
       if: failure()
@@ -44,8 +47,7 @@ jobs:
         path: build.log
     
     - name: Upload Debug APK
-      if: success()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
